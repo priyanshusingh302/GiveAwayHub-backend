@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class  UserController {
 
     @Autowired
     private UserService userService;
@@ -19,6 +21,8 @@ public class UserController {
     public User createUser(@RequestBody User user){
         return userService.addUser(user);
     }
+
+    public List<User> getUsers()
 
     @PostMapping("/get-by-email")
     public User getUserByEmail(@RequestBody EmailRequest emailRequest){
