@@ -22,7 +22,9 @@ public class  UserController {
         return userService.addUser(user);
     }
 
-    public List<User> getUsers()
+    public List<User> getUsers(){
+        return userService.findAllUser();
+    }
 
     @PostMapping("/get-by-email")
     public User getUserByEmail(@RequestBody EmailRequest emailRequest){
