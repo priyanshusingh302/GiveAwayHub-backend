@@ -13,14 +13,29 @@ public class LogService {
     @Autowired
     private LogRepository logRepository;
 
-//    public Log createLog(String userId,String itemId,String type){
-//        return
-//    }
-    public Log findLogByUserId(String userId){
-        return logRepository.findById(userId).get();
+    public Log createLog(String userId, String itemId, Log.LogType type){
+        Log data = new Log();
+        data.setId(UUID.randomUUID().toString());
+        data.setUserId(userId);
+        data.setItemId(itemId);
+        data.setType(type);
+        logRepository.save(data);
+        return data;
     }
 
-    public Log findLogByItemId(String itemId){
-        return logRepository.findById(itemId).get();
+    public List<Log> findLogByUserId(String userId){
+        return logRepository.findAllByUserId(userId);
+    }
+
+    public List<Log> findLogByItemId(String itemId){
+        return logRepository.findAllByItemId(itemId);
+    }
+
+    public Log findLogById(String id){
+        Optional<Log> data = logRepository.findById(id);
+        if(data.isPresent()){
+            return data.get();
+        }
+        return new Log();
     }
 }

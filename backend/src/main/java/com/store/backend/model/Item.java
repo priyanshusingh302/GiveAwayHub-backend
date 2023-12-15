@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Item {
 
     @Id
@@ -20,5 +19,6 @@ public class Item {
     private String category;
     private int yearOfUse;
     private String condition;
+    private boolean available;
 
 }

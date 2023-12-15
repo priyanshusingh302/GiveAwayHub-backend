@@ -14,8 +14,12 @@ public class Log {
 
     @Id
     private String id;
-    private String type;
+    private LogType type;
     private String userId;
     private String itemId;
+
+    public enum LogType{
+        SELL,BUY
+    }
 
 }
