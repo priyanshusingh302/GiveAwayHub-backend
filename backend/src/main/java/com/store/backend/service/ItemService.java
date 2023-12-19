@@ -2,7 +2,6 @@ package com.store.backend.service;
 
 import com.store.backend.model.Item;
 import com.store.backend.model.Log;
-import com.store.backend.model.Task;
 import com.store.backend.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
