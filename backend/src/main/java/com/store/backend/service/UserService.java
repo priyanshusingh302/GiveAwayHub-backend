@@ -30,10 +30,7 @@ public class UserService {
                 .lastName(request.getLastName())
                 .password(request.getPassword())
                 .email(request.getEmail())
-                .dateOfBirth(request.getDateOfBirth())
-                .gender(request.getGender())
                 .phoneNumber(request.getPhoneNumber())
-                .address(request.getAddress())
                 .build();
 
         userRepository.save(user);
@@ -75,7 +72,7 @@ public class UserService {
     public UserDto login(LogInRequest logInRequest) {
         Optional<User> user = userRepository.findByEmail(logInRequest.getEmail());
         if(user.isEmpty()){
-            throw new AppException("Unknown User",HttpStatus.NOT_FOUND);
+            throw new AppException("Unknown User",HttpStatus.BAD_REQUEST);
         }
         if(logInRequest.getPassword().equals(user.get().getPassword())){
             return UserDto.builder()
@@ -86,5 +83,14 @@ public class UserService {
                     .build();
         }
         throw new AppException("Invalid password", HttpStatus.BAD_REQUEST);
+    }
+
+    public User updateUser(User user) {
+        Optional<User> temp = userRepository.findById(user.getId());
+        if(temp.isPresent()){
+            userRepository.save(user);
+            return user;
+        }
+        throw new AppException("Unknown User",HttpStatus.NOT_FOUND);
     }
 }

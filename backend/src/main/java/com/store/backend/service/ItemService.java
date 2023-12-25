@@ -2,6 +2,7 @@ package com.store.backend.service;
 
 import com.store.backend.model.Item;
 import com.store.backend.model.Log;
+import com.store.backend.model.request.ItemAddRequest;
 import com.store.backend.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,19 +20,24 @@ public class ItemService {
     @Autowired
     private LogService logService;
 
-    public Item addItem(Item item){
-        item.setId(UUID.randomUUID().toString());
-        item.setAvailable(true);
-        logService.createLog("user",item.getId(), Log.LogType.SELL);
+    public Item addItem(ItemAddRequest request){
+        Item item = new Item(UUID.randomUUID().toString(),
+                request.getName(),
+                request.getDescription(),
+                request.getCategory(),
+                request.getYearOfUse(),
+                request.getCondition(),
+                true);
+        logService.createLog(request.getUserId(), item.getId(), Log.LogType.SELL);
         return itemRepository.save(item);
     }
 
-    public boolean buyItem(String itemId){
+    public boolean buyItem(String itemId,String userId){
         Optional<Item> data = itemRepository.findById(itemId);
         if(data.isPresent()) {
             Item item = data.get();
             item.setAvailable(false);
-            logService.createLog("user", item.getId(), Log.LogType.BUY);
+            logService.createLog(userId, item.getId(), Log.LogType.BUY);
             itemRepository.save(item);
             return true;
         }

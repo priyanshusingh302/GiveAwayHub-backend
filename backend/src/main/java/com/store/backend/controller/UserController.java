@@ -35,4 +35,14 @@ public class  UserController {
         return ResponseEntity.ok(userDto);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<User> getUser(@PathVariable String id){
+        return ResponseEntity.ok(userService.getById(id));
+    }
+
+    @PostMapping("/user/update")
+    public ResponseEntity<User> updateUser(@RequestBody User user){
+        return ResponseEntity.ok(userService.updateUser(user));
+    }
+
 }
