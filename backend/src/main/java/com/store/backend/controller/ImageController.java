@@ -22,8 +22,8 @@ public class ImageController {
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadImageToBackend(@ModelAttribute ImageUploadRequest request) throws IOException {
-        ImageData imageData = service.uploadImage(request.getFile(), request.getReferenceId());
-        return ResponseEntity.ok(imageData);
+        String response = service.uploadImage(request.getFile(), request.getReferenceId());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
