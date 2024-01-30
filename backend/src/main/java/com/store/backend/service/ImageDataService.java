@@ -22,13 +22,16 @@ public class ImageDataService {
     private ImageDataRepository repository;
 
     public String uploadImage(MultipartFile file,String refId) throws IOException {
-        ImageData imageData = repository.save(ImageData.builder()
-                        .id(UUID.randomUUID().toString())
-                        .referenceId(refId)
-                        .name(file.getOriginalFilename())
-                        .type(file.getContentType())
-                        .data(ImageUtil.compressImage(file.getBytes())).build());
-        return "file uploaded successfully : " + file.getOriginalFilename();
+        ImageData temp = ImageData.builder()
+                .id(UUID.randomUUID().toString())
+                .referenceId(refId)
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .data(ImageUtil.compressImage(file.getBytes())).build();
+        Optional<ImageData> imageData = repository.findByReferenceId(refId);
+        imageData.ifPresent(data -> temp.setId(data.getId()));
+        repository.save(temp);
+        return "File uploaded successfully : " + file.getOriginalFilename();
     }
 
     public  byte[] downloadImage(String refId) throws IOException {
