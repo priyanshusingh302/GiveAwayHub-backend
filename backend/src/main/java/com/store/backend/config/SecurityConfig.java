@@ -34,7 +34,8 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests((requests)-> requests
-                        .requestMatchers(HttpMethod.POST,"/login","/register","/item/all").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/login","/register").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/item/all","/image/*").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
