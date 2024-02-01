@@ -7,6 +7,7 @@ import com.store.backend.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,9 +19,11 @@ public class ItemService {
     private ItemRepository itemRepository;
 
     @Autowired
+    private ImageDataService imageDataService;
+    @Autowired
     private LogService logService;
 
-    public Item addItem(ItemAddRequest request){
+    public Item addItem(ItemAddRequest request) throws IOException {
         Item item = new Item(UUID.randomUUID().toString(),
                 request.getName(),
                 request.getDescription(),
@@ -29,6 +32,9 @@ public class ItemService {
                 request.getCondition(),
                 true);
         logService.createLog(request.getUserId(), item.getId(), Log.LogType.SELL);
+        if(request.getFile() != null) {
+            imageDataService.uploadImage(request.getFile(), item.getId());
+        }
         return itemRepository.save(item);
     }
 

@@ -1,6 +1,7 @@
 package com.store.backend.model.request;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class ItemAddRequest {
@@ -12,4 +13,5 @@ public class ItemAddRequest {
     private String category;
     private int yearOfUse;
     private String condition;
+    private MultipartFile file;
 }
